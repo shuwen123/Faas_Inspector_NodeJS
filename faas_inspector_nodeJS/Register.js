@@ -7,12 +7,21 @@ class Register{
         let myUuid = resArr[0];
         let newContainer = resArr[1];
         let hred = process.hrtime(hrst);
+        let cpuMetrics = getCpuMetrics();
         let res = {
             'cpuType' : cpuType,
             'vmuptime' : vmbt,
             'uuid' : myUuid,
             'newcontainer' : newContainer,
-            'frameworkRuntime' : hred[1] / 1000000
+            'frameworkRuntime' : hred[1] / 1000000 ,
+            'cpuusr' : parseInt(cpuMetrics[0]),
+            'cpunice' : parseInt(cpuMetrics[1]),
+            'cpukrn' : parseInt(cpuMetrics[2]),
+            'cpuidle' : parseInt(cpuMetrics[3]),
+            'cpuiowait' : parseInt(cpuMetrics[4]),
+            'cpuirq' : parseInt(cpuMetrics[5]),
+            'cpusoftirq' : parseInt(cpuMetrics[6]),
+            'cpusteal' : parseInt(cpuMetrics[7])
         }
         return res;
     }
@@ -43,6 +52,20 @@ function getVmCpuStat(){
     let res = child.replace('\n','');
     res = res.replace('\t','');
     res = res.replace('model name: ', '');
+    return res;
+}
+
+function getCpuMetrics(){
+    // uses child process like subprocess in python.
+    // with execSync is Sync, without exec is Async.
+    const { execSync } = require('child_process');
+    const { StringDecoder } = require('string_decoder');
+    const decoder = new StringDecoder('utf8');
+    // decoded from byte object into string already.
+    const child = execSync('cat /proc/stat | grep "^cpu" | head -1', { encoding : 'utf8' });
+    let res = child.replace('\n', '');
+    res = res.replace('cpu  ', '');
+    res = res.split(" ");
     return res;
 }
 
