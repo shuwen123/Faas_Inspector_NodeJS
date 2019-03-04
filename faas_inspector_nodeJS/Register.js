@@ -1,15 +1,18 @@
 class Register{
     profileVM(){
+        let hrst = process.hrtime();
         let vmbt = getUpTime();
         let cpuType = getVmCpuStat();
         let resArr = stampContainer();
         let myUuid = resArr[0];
         let newContainer = resArr[1];
+        let hred = process.hrtime(hrst);
         let res = {
             'cpuType' : cpuType,
             'vmuptime' : vmbt,
             'uuid' : myUuid,
-            'newcontainer' : newContainer
+            'newcontainer' : newContainer,
+            'frameworkRuntime' : hred[1] / 1000000
         }
         return res;
     }
