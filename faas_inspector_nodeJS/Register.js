@@ -1,27 +1,31 @@
 class Register{
+    constructor(){
+        this.hrst = process.hrtime();
+    }
+    
+
     profileVM(){
-        let hrst = process.hrtime();
         let vmbt = getUpTime();
         let cpuType = getVmCpuStat();
         let resArr = stampContainer();
         let myUuid = resArr[0];
         let newContainer = resArr[1];
-        let hred = process.hrtime(hrst);
         let cpuMetrics = getCpuMetrics();
+        let hred = process.hrtime(this.hrst);
         let res = {
             'cpuType' : cpuType,
             'vmuptime' : vmbt,
             'uuid' : myUuid,
             'newcontainer' : newContainer,
-            'frameworkRuntime' : hred[1] / 1000000 ,
-            'cpuusr' : parseInt(cpuMetrics[0]),
-            'cpunice' : parseInt(cpuMetrics[1]),
-            'cpukrn' : parseInt(cpuMetrics[2]),
-            'cpuidle' : parseInt(cpuMetrics[3]),
-            'cpuiowait' : parseInt(cpuMetrics[4]),
-            'cpuirq' : parseInt(cpuMetrics[5]),
-            'cpusoftirq' : parseInt(cpuMetrics[6]),
-            'cpusteal' : parseInt(cpuMetrics[7])
+            'runtime' : hred[1] / 1000000 ,
+            'cpuUsr' : parseInt(cpuMetrics[0]),
+            'cpuNice' : parseInt(cpuMetrics[1]),
+            'cpuKrn' : parseInt(cpuMetrics[2]),
+            'cpuIdle' : parseInt(cpuMetrics[3]),
+            'cpuIowait' : parseInt(cpuMetrics[4]),
+            'cpuIrq' : parseInt(cpuMetrics[5]),
+            'cpuSoftIrq' : parseInt(cpuMetrics[6]),
+            'vmcpusteal' : parseInt(cpuMetrics[7])
         }
         return res;
     }
