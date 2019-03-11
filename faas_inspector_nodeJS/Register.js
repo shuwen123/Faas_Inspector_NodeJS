@@ -17,7 +17,7 @@ class Register{
             'vmuptime' : vmbt,
             'uuid' : myUuid,
             'newcontainer' : newContainer,
-            'runtime' : hred[1] / 1000000 ,
+            'runtime' : Math.round(hred[1] / 1000000),
             'cpuUsr' : parseInt(cpuMetrics[0]),
             'cpuNice' : parseInt(cpuMetrics[1]),
             'cpuKrn' : parseInt(cpuMetrics[2]),
